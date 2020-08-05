@@ -1,0 +1,28 @@
+{
+  "name": "discord-bot",
+  "version": "0.0.0",
+  "description": "Discord bot for the TLMC",
+  "author": {
+    "name": "Markus Tran",
+    "email": "thebluepillow@gmail.com",
+    "url": "http://pillowfication.com"
+  },
+  "homepage": "https://github.com/pf-tlmc/discord-bot",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pf-tlmc/discord-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pf-tlmc/discord-bot/issues"
+  },
+  "scripts": {
+    "start": "node src/bot"
+  },
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
+  }
+}
