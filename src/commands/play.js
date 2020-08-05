@@ -17,12 +17,12 @@ async function play (client, message, songId) {
 
   const voiceConnection = client._data.voiceConnections[message.guild.id]
   const song = songs[songId]
-  voiceConnection.play(`${process.env.TLMC_SERVE}/tlmc${urlEncode(song.path)}`, { volume: 0.4 })
+  voiceConnection.play(`${process.env.TLMC_SERVE}/api/tlmc${urlEncode(song.path)}`, { volume: 0.4 })
   message.channel.send(
     new MessageEmbed()
       .setTitle(song.meta.TITLE)
-      .setURL(`https://tlmc.pf-n.co/tlmc${urlEncode(song.path, true)}`)
-      .setThumbnail(`https://tlmc.pf-n.co/api/thumbnail?cue=${urlEncode(song.path, true)}`)
+      .setURL(`${process.env.TLMC_SERVE}/tlmc${urlEncode(song.path, true)}`)
+      .setThumbnail(`${process.env.TLMC_SERVE}/api/thumbnail?cue=${urlEncode(song.path, true)}`)
       .setFooter(song.path)
   )
 }

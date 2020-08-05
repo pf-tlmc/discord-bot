@@ -15,8 +15,6 @@ client._data = {
   voiceConnections: {}
 }
 
-console.log(client._data)
-
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
