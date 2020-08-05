@@ -9,7 +9,7 @@ play [songId]    Play a song; Use '!tlmc join' first
 \`\`\`
 `.trim()
 
-function help (message) {
+function help (client, message) {
   message.channel.send(HELP_TEXT)
 }
 
