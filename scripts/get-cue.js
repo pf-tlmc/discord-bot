@@ -13,7 +13,7 @@ module.exports = () => {
     fs.access(CUE_CACHE_PATH, (err) => {
       if (err) {
         console.log('Fetching CUE_CACHE...')
-        http.get(`${process.env.TLMC_SERVE}/cue`, (res) => {
+        http.get('http://serve.tlmc.pf-n.co:3000/cue', (res) => {
           const cue = fs.createWriteStream(CUE_CACHE_PATH)
           res.pipe(cue)
           cue.on('finish', () => {

@@ -13,7 +13,7 @@ module.exports = () => {
     fs.access(LS_CACHE_PATH, (err) => {
       if (err) {
         console.log('Fetching LS_CACHE...')
-        http.get(`${process.env.TLMC_SERVE}/ls`, (res) => {
+        http.get('http://serve.tlmc.pf-n.co:3000/ls', (res) => {
           const ls = fs.createWriteStream(LS_CACHE_PATH)
           res.pipe(ls)
           ls.on('finish', () => {
