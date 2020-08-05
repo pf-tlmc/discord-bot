@@ -2,11 +2,23 @@ const IMAGE_REGEX = /\.(jpe?g|png|bmp|tiff|gif)$/i
 const ALBUM_REGEX = /\.cue$/i
 const SONG_REGEX = /\.mp3$/i
 
-module.exports.urlEncode = function urlEncode (url) {
-  return url.replace(/#/g, '%23')
+function urlEncode (url, full) {
+  return full
+    ? url.split('/').map(encodeURIComponent).join('/')
+    : url.replace(/#/g, '%23')
 }
 
-module.exports.parseCue = function parseCue (cueStr) {
+function tokenize (str) {
+  const tokens = []
+  const regex = /"([^"\\]*(?:\\.[^"\\]*)*)"|([^\s]+)/g
+  let match
+  while ((match = regex.exec(str))) {
+    tokens.push(match[1] || match[2])
+  }
+  return tokens
+}
+
+function parseCue (cueStr) {
   const cue = {}
   let currIndent = 0
   let node = cue
@@ -16,13 +28,7 @@ module.exports.parseCue = function parseCue (cueStr) {
 
     // Parse line
     const indent = line.search(/\S/) >> 1
-    const tokens = []
-    const regex = /"([^"\\]*(?:\\.[^"\\]*)*)"|([^\s]+)/g
-    let match
-    while ((match = regex.exec(line))) {
-      tokens.push(match[1] || match[2])
-    }
-    const [command, ...args] = tokens
+    const [command, ...args] = tokenize(line)
 
     // Go to level
     while (indent < currIndent) {
@@ -68,7 +74,7 @@ module.exports.parseCue = function parseCue (cueStr) {
   return cue
 }
 
-module.exports.getNodeType = function getNodeType (node) {
+function getNodeType (node) {
   if (node.isDirectory) {
     if (!node.isRoot && node.parent.isRoot) return 'CIRCLE'
   }
@@ -80,10 +86,18 @@ module.exports.getNodeType = function getNodeType (node) {
   return 'UNKNOWN'
 }
 
-module.exports.getFileName = function getFileName (track) {
+function getFileName (track) {
   return `${track.number}. ${track.TITLE}.mp3`
     .replace(/\?/g, '')
     .replace(/[/\\:|]/g, '-')
     .replace(/[<>\t]/g, '_')
     .replace(/\*/g, 'x')
+}
+
+module.exports = {
+  urlEncode,
+  tokenize,
+  parseCue,
+  getNodeType,
+  getFileName
 }
